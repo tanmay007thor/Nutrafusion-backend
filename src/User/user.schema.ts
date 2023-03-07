@@ -1,6 +1,11 @@
-import * as mongoose from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
-export const UserSchema = new mongoose.Schema({
+const reviewSchema = new Schema({
+  id: String,
+  review: String,
+});
+
+export const UserSchema = new Schema({
   id: String,
   name: String,
   email: {
@@ -15,6 +20,7 @@ export const UserSchema = new mongoose.Schema({
     required: true,
     enum: ['male', 'female', 'other'],
   },
+  reviews: [reviewSchema],
 }, {
   timestamps: true,
 });
