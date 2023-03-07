@@ -5,9 +5,13 @@ import { User } from './user.interface';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class UserService {
+  private readonly JWT_SECRET = 'your_jwt_secret';
+
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -67,5 +71,23 @@ export class UserService {
     } catch (error) {
       throw new HttpException('Failed to delete user', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async login(email: string, password: string): Promise<{ accessToken: string }> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
+    }
+
+    const payload: LoginDto = { email: user.email };
+
+    const accessToken = jwt.sign(payload, this.JWT_SECRET, { expiresIn: '1h' });
+
+    return { accessToken };
   }
 }

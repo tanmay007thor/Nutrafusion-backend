@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/update.user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+
   @Post('/v1/user')
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
@@ -30,5 +31,10 @@ export class UserController {
   @Delete('/v1/user/:id')
   async delete(@Param('id') id: string) {
     return this.userService.deleteUser(id);
+  }
+
+  @Post('/v1/login')
+  async login(@Body('email') email: string, @Body('password') password: string) {
+    return this.userService.login(email, password);
   }
 }
