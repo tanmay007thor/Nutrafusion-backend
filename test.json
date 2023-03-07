@@ -1,0 +1,50 @@
+
+
+{
+  "id": "1",
+  "name": "Japanese Gyozas",
+  "description": "Authentic Japanese-style pork and vegetable dumplings",
+  "calories": 650,
+  "nutriscore": 74,
+  "rating": 4.7,
+  "category": "vegan",
+  "plan": "starter",
+  "images": [
+    {
+      "url": "https://example.com/gyozas.jpg",
+      "alt": "Picture of Japanese Gyozas"
+    }
+  ]
+}
+
+{
+  "id": "3",
+  "name": "Premium",
+  "description": "3 meals per day",
+  "price": 999,
+  "per_meal_price": 11,
+  "order_hours": "24/7",
+  "delivery": "Free",
+  "access_to_latest_recipes": true,
+  "personal_chef": true,
+  "priority_customer_support": true
+}
+{
+  "id": "2",
+  "name": "Complete",
+  "description": "2 meals per day",
+  "price": 649,
+  "per_meal_price": 11,
+  "order_hours": "24/7",
+  "delivery": "Free",
+  "access_to_latest_recipes": true
+}
+{
+  "id": "1",
+  "name": "Starter",
+  "description": "1 meal per day",
+  "price": 399,
+  "per_meal_price": 13,
+  "order_hours": "11am to 9pm",
+  "delivery": "Free"
+}
