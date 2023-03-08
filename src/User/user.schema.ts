@@ -3,24 +3,28 @@ import { Schema, Types } from 'mongoose';
 const reviewSchema = new Schema({
   id: String,
   review: String,
+  rating : Number ,
 });
 
-export const UserSchema = new Schema({
-  id: String,
-  name: String,
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    match: /^\S+@\S+\.\S+$/,
+export const UserSchema = new Schema(
+  {
+    id: String,
+    name: String,
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: /^\S+@\S+\.\S+$/,
+    },
+    password: String,
+    gender: {
+      type: String,
+      required: true,
+      enum: ['male', 'female', 'other'],
+    },
+    reviews: [reviewSchema],
   },
-  password: String,
-  gender: {
-    type: String,
-    required: true,
-    enum: ['male', 'female', 'other'],
+  {
+    timestamps: true,
   },
-  reviews: [reviewSchema],
-}, {
-  timestamps: true,
-});
+);

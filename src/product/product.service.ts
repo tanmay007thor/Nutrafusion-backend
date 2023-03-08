@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/product.create.dto';
@@ -15,7 +15,7 @@ export class ProductService {
       const createdProduct = new this.productModel(createProductDto);
       return await createdProduct.save();
     } catch (error) {
-      throw new Error(`Unable to create product: ${error.message}`);
+      throw new HttpException(`Unable to create product: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -23,15 +23,19 @@ export class ProductService {
     try {
       return await this.productModel.find().exec();
     } catch (error) {
-      throw new Error(`Unable to find products: ${error.message}`);
+      throw new HttpException(`Unable to find products: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   async findOneProduct(id: string): Promise<Product> {
     try {
-      return await this.productModel.findById(id).exec();
+      const product = await this.productModel.findById(id).exec();
+      if (!product) {
+        throw new HttpException(`Unable to find product with id ${id}`, HttpStatus.NOT_FOUND);
+      }
+      return product;
     } catch (error) {
-      throw new Error(`Unable to find product with id ${id}: ${error.message}`);
+      throw new HttpException(`Unable to find product with id ${id}: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -46,23 +50,25 @@ export class ProductService {
         { new: true },
       );
       if (!updatedProduct) {
-        throw new Error(`Unable to update product with id ${id}`);
+        throw new HttpException(`Unable to update product with id ${id}`, HttpStatus.NOT_FOUND);
       }
       return updatedProduct;
     } catch (error) {
-      throw new Error(`Unable to update product with id ${id}: ${error.message}`);
+      throw new HttpException(`Unable to update product with id ${id}: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
 
   async deleteProduct(id: string): Promise<Product> {
     try {
       const deletedProduct = await this.productModel.findByIdAndDelete(id);
       if (!deletedProduct) {
-        throw new Error(`Unable to delete product with id ${id}`);
+        throw new HttpException(`Unable to delete product with id ${id}`, HttpStatus.NOT_FOUND);
       }
       return deletedProduct;
     } catch (error) {
-      throw new Error(`Unable to delete product with id ${id}: ${error.message}`);
+      throw new HttpException(`Unable to delete product with id ${id}: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
+

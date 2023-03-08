@@ -6,13 +6,13 @@ class ReviewDto {
   @IsOptional()
   id: number;
   review: string;
+  rating : number ;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   name: string;
   password: string;
   updatedAt: Date;
-
   @IsOptional()
   reviews: ReviewDto[];
 }
