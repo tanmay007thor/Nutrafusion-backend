@@ -4,11 +4,12 @@ import { UserService } from './User/user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './User/user.schema';
 import { ProductModule } from './product/product.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/nutrafusion-backend'), 
             MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]) ,
-         ProductModule ],
+         ProductModule , EmailModule ],
   controllers: [UserController],
   providers: [UserService],
 })
