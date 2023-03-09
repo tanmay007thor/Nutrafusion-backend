@@ -5,9 +5,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './User/user.schema';
 import { ProductModule } from './product/product.module';
 import { EmailModule } from './email/email.module';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017/nutrafusion-backend'), 
+  imports: [MongooseModule.forRoot(process.env.DB_CONNECT), 
             MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]) ,
          ProductModule , EmailModule ],
   controllers: [UserController],

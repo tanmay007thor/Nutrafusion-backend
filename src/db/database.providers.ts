@@ -1,5 +1,7 @@
 import { MongooseModule } from '@nestjs/mongoose';
-
+import { Module } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+dotenv.config();
 export const databaseProviders = [
-  MongooseModule.forRoot('mongodb://localhost:27017/nutrafusion-backend'),
+  MongooseModule.forRoot(process.env.DB_CONNECT),
 ];
