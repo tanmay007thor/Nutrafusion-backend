@@ -25,6 +25,6 @@ export const UserSchema = new Schema(
     reviews: [reviewSchema],
   },
   {
-    timestamps: true,
+    timestamps: true ,
   },
 );
