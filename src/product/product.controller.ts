@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../user/jwt-auth.guard'; // <-- custom auth guard
+// import { JwtAuthGuard } from '../user/jwt-auth.guard'; // <-- custom auth guard
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/product.create.dto';
 import { UpdateProductDto } from './dto/product.create.dto';
@@ -25,13 +25,13 @@ export class ProductController {
     return this.productService.findOneProduct(id);
   }
 
-  @UseGuards(JwtAuthGuard) // <-- secure with JWT auth guard
+  // @UseGuards(JwtAuthGuard) // <-- secure with JWT auth guard
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto): Promise<Product> {
     return this.productService.updateProduct(id, updateProductDto);
   }
 
-  @UseGuards(JwtAuthGuard) // <-- secure with JWT auth guard
+  // @UseGuards(JwtAuthGuard) // <-- secure with JWT auth guard
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<Product> {
     return this.productService.deleteProduct(id);
