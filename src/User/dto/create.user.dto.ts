@@ -1,4 +1,9 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+
+class ReviewDto {
+  id: number;
+  review: string;
+}
 
 export class CreateUserDto {
   @IsString()
@@ -14,4 +19,9 @@ export class CreateUserDto {
 
   @IsString()
   gender: string;
+
+  @ArrayMinSize(1)
+  @ArrayMaxSize(5)
+  @ValidateNested({ each: true })
+  reviews: ReviewDto[];
 }

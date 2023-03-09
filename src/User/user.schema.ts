@@ -1,20 +1,30 @@
-import * as mongoose from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
-export const UserSchema = new mongoose.Schema({
+const reviewSchema = new Schema({
   id: String,
-  name: String,
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    match: /^\S+@\S+\.\S+$/,
-  },
-  password: String,
-  gender: {
-    type: String,
-    required: true,
-    enum: ['male', 'female', 'other'],
-  },
-}, {
-  timestamps: true,
+  review: String,
+  rating : Number ,
 });
+
+export const UserSchema = new Schema(
+  {
+    id: String,
+    name: String,
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      match: /^\S+@\S+\.\S+$/,
+    },
+    password: String,
+    gender: {
+      type: String,
+      required: true,
+      enum: ['male', 'female', 'other'],
+    },
+    reviews: [reviewSchema],
+  },
+  {
+    timestamps: true,
+  },
+);
