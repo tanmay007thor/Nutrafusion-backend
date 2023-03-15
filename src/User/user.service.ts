@@ -73,7 +73,25 @@ export class UserService {
     }
   }
 
-  async login(email: string, password: string): Promise<{ accessToken: string }> {
+//   async login(email: string, password: string): Promise<{ accessToken: string }> {
+//     const user = await this.userModel.findOne({ email });
+//     if (!user) {
+//       throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
+//     }
+
+//     const isPasswordMatch = await bcrypt.compare(password, user.password);
+//     if (!isPasswordMatch) {
+//       throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
+//     }
+
+//     const payload: LoginDto = { email: user.email };
+
+//     const accessToken = jwt.sign(payload, this.JWT_SECRET, { expiresIn: '1h' });
+
+//     return { accessToken };
+//   }
+  
+  async login(email: string, password: string): Promise<{ accessToken: string, user: any }> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
       throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
@@ -88,6 +106,7 @@ export class UserService {
 
     const accessToken = jwt.sign(payload, this.JWT_SECRET, { expiresIn: '1h' });
 
-    return { accessToken };
+    return { accessToken, user };
   }
+
 }
